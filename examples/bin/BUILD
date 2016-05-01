@@ -12,3 +12,12 @@ go_binary(
         "//examples/vendor/github_com/user/vendored:go_default_library",
     ],
 )
+
+go_binary(
+    name = "bin_with_rename",
+    srcs = ["bin.go"],
+    deps = [
+        "//examples/lib:go_default_library",
+        "//examples/vendor/github_com/user:vendored",
+    ],
+)

@@ -160,6 +160,9 @@ def emit_go_compile_action(ctx, sources, deps, out_lib, cgo_object=None):
     if source_import.rfind(_VENDOR_PREFIX) != -1:
       source_import = source_import[len(_VENDOR_PREFIX) + source_import.rfind(_VENDOR_PREFIX):]
 
+    if len(d.source_import):
+      source_import = d.source_import
+
     if source_import != actual_import:
       if source_import in import_map:
         fail("duplicate import %s: adding %s and have %s"
@@ -252,6 +255,7 @@ def go_library_impl(ctx):
     transitive_go_library_object = transitive_libs,
     cgo_object = cgo_object,
     transitive_cgo_deps = transitive_cgo_deps,
+    source_import = ctx.attr.source_import,
   )
 
 def _c_linker_options(ctx, blacklist=[]):
@@ -443,6 +447,7 @@ go_library_attrs = go_env_attrs + {
     "library": attr.label(
         providers = ["go_sources", "cgo_object"],
     ),
+    "source_import": attr.string(),
 }
 
 go_library_outputs = {
